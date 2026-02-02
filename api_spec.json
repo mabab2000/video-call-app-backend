@@ -1,0 +1,99 @@
+{
+  "server": {
+    "name": "WebRTC Video Call Server",
+    "description": "FastAPI WebSocket server for peer-to-peer video calling",
+    "version": "1.0.0"
+  },
+  "endpoints": {
+    "websocket": {
+      "url": "wss://10.39.159.126:8000/ws",
+      "protocol": "WebSocket over HTTPS",
+      "description": "Main signaling endpoint for WebRTC communication"
+    },
+    "web_interface": {
+      "url": "https://10.39.159.126:8000",
+      "description": "Optional web interface for testing"
+    }
+  },
+  "connection_flow": [
+    "Connect to WebSocket endpoint",
+    "Receive client_id message",
+    "Setup WebRTC PeerConnection",
+    "Get user media (camera/microphone)", 
+    "Exchange offer/answer via WebSocket",
+    "Exchange ICE candidates",
+    "Establish direct video connection"
+  ],
+  "message_types": {
+    "client_id": {
+      "direction": "server_to_client",
+      "description": "Unique identifier assigned to client",
+      "format": {
+        "type": "client_id",
+        "data": "uuid_string"
+      }
+    },
+    "offer": {
+      "direction": "client_to_server",
+      "description": "WebRTC offer to initiate call",
+      "format": {
+        "type": "offer",
+        "data": "RTCSessionDescription_object"
+      }
+    },
+    "answer": {
+      "direction": "client_to_server", 
+      "description": "WebRTC answer to accept call",
+      "format": {
+        "type": "answer",
+        "data": "RTCSessionDescription_object"
+      }
+    },
+    "candidate": {
+      "direction": "bidirectional",
+      "description": "ICE candidate for connection establishment",
+      "format": {
+        "type": "candidate",
+        "data": "RTCIceCandidate_object"
+      }
+    }
+  },
+  "webrtc_config": {
+    "iceServers": [
+      {
+        "urls": "stun:stun.l.google.com:19302"
+      }
+    ],
+    "mediaConstraints": {
+      "video": true,
+      "audio": true
+    }
+  },
+  "requirements": {
+    "protocol": "HTTPS/WSS required for camera access",
+    "permissions": "Camera and microphone permissions required",
+    "browsers": "Modern browsers with WebRTC support"
+  },
+  "libraries": {
+    "react_native": {
+      "webrtc": "react-native-webrtc",
+      "websocket": "built-in WebSocket API"
+    },
+    "ios": {
+      "webrtc": "GoogleWebRTC pod",
+      "websocket": "Starscream"
+    },
+    "android": {
+      "webrtc": "org.webrtc:google-webrtc",
+      "websocket": "Java-WebSocket"
+    },
+    "flutter": {
+      "webrtc": "flutter_webrtc",
+      "websocket": "web_socket_channel"
+    }
+  },
+  "testing": {
+    "websocket_test": "wscat -c wss://10.39.159.126:8000/ws",
+    "expected_first_message": "{\"type\":\"client_id\",\"data\":\"uuid\"}"
+  }
+}

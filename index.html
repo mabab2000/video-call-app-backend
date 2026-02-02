@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebRTC + FastAPI</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    video { width: 300px; height: 200px; margin: 10px; border: 2px solid #ccc; }
+    #localVideo { border-color: #4CAF50; }
+    #remoteVideo { border-color: #2196F3; }
+    #status { margin: 10px 0; font-weight: bold; color: #333; }
+    #log { height: 200px; overflow: auto; background: #f4f4f4; padding: 8px; font-family: monospace; font-size: 12px; }
+    button { padding: 10px 20px; font-size: 16px; margin: 5px; }
+  </style>
+</head>
+<body>
+  <h2>WebRTC Video Call (FastAPI)</h2>
+  
+  <div>
+    <div style="display: inline-block; text-align: center;">
+      <div>Your Video</div>
+      <video id="localVideo" autoplay muted></video>
+    </div>
+    <div style="display: inline-block; text-align: center;">
+      <div>Remote Video</div>
+      <video id="remoteVideo" autoplay></video>
+    </div>
+  </div>
+
+  <button id="startBtn">Start Call</button>
+  <div id="status" style="margin-top:8px;font-weight:bold"></div>
+  <pre id="log" style="height:200px;overflow:auto;background:#f4f4f4;padding:8px"></pre>
+
+  <script src="script.js"></script>
+</body>
+</html>
